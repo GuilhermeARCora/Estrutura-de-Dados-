@@ -42,23 +42,23 @@ void exibeLista(ListaAlunos* listaAlunos){
     }
 }
 
-// Improved insereAlunoNaLista function
+
 bool insereAlunoNaLista(ListaAlunos* listaAlunos,
                         Aluno aluno,
                         int posicao) {
     if (listaAlunos->numElem >= MAXSIZE) {
-        printf("InserÁ„o em posiÁ„o inv·lida (lista cheia)!\n");
+        printf("Inser√ß√£o em posi√ß√£o inv√°lida (lista cheia)!\n");
         return false;
     }
 
     if (posicao < 0 || posicao > listaAlunos->numElem) {
-        printf("InserÁ„o em posiÁ„o inv·lida!\n");
+        printf("Inser√ß√£o em posi√ß√£o inv√°lida!\n");
         return false;
     }
 
     for (int index = 0; index < listaAlunos->numElem; index++) {
         if (listaAlunos->alunos[index].matricula == aluno.matricula) {
-            printf("MatrÌcula duplicada, inserÁ„o n„o permitida!\n");
+            printf("Matr√≠cula duplicada, inser√ß√£o n√£o permitida!\n");
             return false;
         }
     }
@@ -79,7 +79,7 @@ bool insereAlunoNaLista(ListaAlunos* listaAlunos,
 
 bool excluiElementoDaLista(ListaAlunos* listaAlunos, int posicao) {
     if (posicao < 0 || posicao >= listaAlunos->numElem) {
-        printf("Exclus„o em posiÁ„o inv·lida!\n");
+        printf("Exclus√£o em posi√ß√£o inv√°lida!\n");
         return false;
     }
 
@@ -144,7 +144,6 @@ int main(){
     excluiElementoDaLista(&listaAlunos, 1);
     exibeLista(&listaAlunos);
     printf("nao foi apagado %s\n", listaAlunos.alunos[2].nome);
-    return 0;
 
        int index = buscaAlunoPorNome(&listaAlunos, "Ana");
     if (index != -1) {
@@ -153,27 +152,27 @@ int main(){
         printf("Matricula: %d\n", listaAlunos.alunos[index].matricula);
         printf("Nota: %.1f\n", listaAlunos.alunos[index].nota);
     } else {
-        printf("Aluno n„o encontrado por nome.\n");
+        printf("Aluno n√£o encontrado por nome.\n");
     }
 
     index = buscaAlunoPorMatricula(&listaAlunos, 10101011);
     if (index != -1) {
-        printf("Aluno encontrado por matrÌcula:\n");
+        printf("Aluno encontrado por matr√≠cula:\n");
         printf("Nome: %s\n", listaAlunos.alunos[index].nome);
         printf("Matricula: %d\n", listaAlunos.alunos[index].matricula);
         printf("Nota: %.1f\n", listaAlunos.alunos[index].nota);
     } else {
-        printf("Aluno n„o encontrado por matrÌcula.\n");
+        printf("Aluno n√£o encontrado por matr√≠cula.\n");
     }
 
     int n = 1;
     Aluno* enesimoAluno = retornaNesimoAluno(&listaAlunos, n);
     if (enesimoAluno != NULL) {
-        printf("EnÈsimo aluno:\n");
+        printf("En√©simo aluno:\n");
         printf("Nome: %s\n", enesimoAluno->nome);
         printf("Matricula: %d\n", enesimoAluno->matricula);
         printf("Nota: %.1f\n", enesimoAluno->nota);
     } else {
-        printf("Õndice inv·lido para obter o enÈsimo aluno.\n");
+        printf("√çndice inv√°lido para obter o en√©simo aluno.\n");
     }
 }
