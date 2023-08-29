@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <locale.h>
 #define MAXSIZE 10
 
 
@@ -76,6 +77,15 @@ bool insereAlunoNaLista(ListaAlunos* listaAlunos,
     return true;
 }
 
+void obterDetalhesAluno(Aluno* novoAluno) {
+    printf("Digite o nome do aluno: ");
+    scanf("%s", novoAluno->nome);
+    printf("Digite a matrícula do aluno: ");
+    scanf("%d", &novoAluno->matricula);
+    printf("Digite a nota do aluno: ");
+    scanf("%f", &novoAluno->nota);
+}
+
 
 bool excluiElementoDaLista(ListaAlunos* listaAlunos, int posicao) {
     if (posicao < 0 || posicao >= listaAlunos->numElem) {
@@ -127,6 +137,12 @@ Aluno* retornaNesimoAluno(ListaAlunos* listaAlunos, int n) {
 
 int main(){
 
+    setlocale(LC_ALL, "");
+
+    int matriculaBusca;
+    int posicaoBusca;
+    Aluno novoAluno;
+    char nomeBusca[20];
     ListaAlunos listaAlunos;
     inicializaLista(&listaAlunos);
 
@@ -140,39 +156,120 @@ int main(){
     insereAlunoNaLista(&listaAlunos, aluno2, 1);
 
     exibeLista(&listaAlunos);
-    printf("Excluindo elemento.............\n");
+    printf("\nExcluindo elemento.............\n");
     excluiElementoDaLista(&listaAlunos, 1);
     exibeLista(&listaAlunos);
     printf("nao foi apagado %s\n", listaAlunos.alunos[2].nome);
 
-       int index = buscaAlunoPorNome(&listaAlunos, "Ana");
-    if (index != -1) {
-        printf("Aluno encontrado por nome:\n");
-        printf("Nome: %s\n", listaAlunos.alunos[index].nome);
-        printf("Matricula: %d\n", listaAlunos.alunos[index].matricula);
-        printf("Nota: %.1f\n", listaAlunos.alunos[index].nota);
-    } else {
-        printf("Aluno não encontrado por nome.\n");
-    }
 
-    index = buscaAlunoPorMatricula(&listaAlunos, 10101011);
-    if (index != -1) {
-        printf("Aluno encontrado por matrícula:\n");
-        printf("Nome: %s\n", listaAlunos.alunos[index].nome);
-        printf("Matricula: %d\n", listaAlunos.alunos[index].matricula);
-        printf("Nota: %.1f\n", listaAlunos.alunos[index].nota);
-    } else {
-        printf("Aluno não encontrado por matrícula.\n");
-    }
+    int choice;
+    do {
+        printf("\nMenu:\n");
+        printf("1. Buscar aluno por nome\n");
+        printf("2. Buscar aluno por matrícula\n");
+        printf("3. Buscar aluno por posição\n"); // Opção adicionada
+        printf("4. Inserir novo aluno\n");
+        printf("5. Excluir aluno\n");
+        printf("6. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &choice);
 
-    int n = 1;
-    Aluno* enesimoAluno = retornaNesimoAluno(&listaAlunos, n);
-    if (enesimoAluno != NULL) {
-        printf("Enésimo aluno:\n");
-        printf("Nome: %s\n", enesimoAluno->nome);
-        printf("Matricula: %d\n", enesimoAluno->matricula);
-        printf("Nota: %.1f\n", enesimoAluno->nota);
-    } else {
-        printf("Índice inválido para obter o enésimo aluno.\n");
-    }
+        while (getchar() != '\n'); // Limpa o buffer de entrada
+
+        switch (choice) {
+            case 1:
+
+                printf("Digite o nome do aluno a ser buscado: ");
+                scanf("%s", nomeBusca);
+
+                int indexNome = buscaAlunoPorNome(&listaAlunos, nomeBusca);
+                if (indexNome != -1) {
+                    printf("Aluno encontrado por nome:\n");
+                    printf("Nome: %s\n", listaAlunos.alunos[indexNome].nome);
+                    printf("Matrícula: %d\n", listaAlunos.alunos[indexNome].matricula);
+                    printf("Nota: %.1f\n", listaAlunos.alunos[indexNome].nota);
+                } else {
+                    printf("Aluno não encontrado por nome.\n");
+                }
+                break;
+                break;
+
+            case 2:
+
+                printf("Digite a matrícula do aluno a ser buscado: ");
+                scanf("%d", &matriculaBusca);
+
+                int indexMatricula = buscaAlunoPorMatricula(&listaAlunos, matriculaBusca);
+                if (indexMatricula != -1) {
+                    printf("Aluno encontrado por matrícula:\n");
+                    printf("Nome: %s\n", listaAlunos.alunos[indexMatricula].nome);
+                    printf("Matrícula: %d\n", listaAlunos.alunos[indexMatricula].matricula);
+                    printf("Nota: %.1f\n", listaAlunos.alunos[indexMatricula].nota);
+                } else {
+                    printf("Aluno não encontrado por matrícula.\n");
+                }
+                break;
+
+            case 3:
+
+                printf("Digite a posição do aluno a ser buscado: ");
+                scanf("%d", &posicaoBusca);
+
+                if (posicaoBusca >= 0 && posicaoBusca < listaAlunos.numElem) {
+                    Aluno* alunoNaPosicao = retornaNesimoAluno(&listaAlunos, posicaoBusca);
+                    if (alunoNaPosicao != NULL) {
+                        printf("Aluno na posição %d:\n", posicaoBusca);
+                        printf("Nome: %s\n", alunoNaPosicao->nome);
+                        printf("Matrícula: %d\n", alunoNaPosicao->matricula);
+                        printf("Nota: %.1f\n", alunoNaPosicao->nota);
+                    } else {
+                        printf("Erro ao buscar aluno na posição %d.\n", posicaoBusca);
+                    }
+                } else {
+                    printf("Posição inválida.\n");
+                }
+                break;
+
+             case 4:
+{
+
+
+                obterDetalhesAluno(&novoAluno);
+
+                if (insereAlunoNaLista(&listaAlunos, novoAluno, listaAlunos.numElem)) {
+                    int posicaoInsercao = listaAlunos.numElem - 1; // Última posição inserida
+                    printf("Novo aluno inserido na posição %d do array com sucesso!\n", posicaoInsercao);
+                } else {
+                    printf("Erro ao inserir novo aluno.\n");
+                }
+                break;
+            }
+
+            case 5: {
+                int posicaoExclusao;
+                printf("Digite a posição do aluno a ser excluído: ");
+                scanf("%d", &posicaoExclusao);
+
+                if (excluiElementoDaLista(&listaAlunos, posicaoExclusao)) {
+                    printf("Aluno excluído com sucesso da posição %d do array.\n", posicaoExclusao);
+                } else {
+                    printf("Erro ao excluir aluno.\n");
+                }
+                break;
+            }
+
+            case 6:
+                printf("Encerrando o programa.\n");
+                break;
+
+
+
+            default:
+                printf("Opção inválida. Por favor, escolha uma opção válida.\n");
+                break;
+        }
+
+    } while (choice != 6);
+
+    return 0;
 }
